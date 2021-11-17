@@ -1,0 +1,6 @@
+
+#Ore Tweaker - Settings File
+[SETTINGS]
+	#Enables debug mode
+	debug = false
+
