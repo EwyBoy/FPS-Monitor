@@ -6,7 +6,7 @@ issueTrackerURL="https://github.com/EwyBoy/Template-Mod/issues"
 [[mods]]
 modId="fps"
 version="${file.jarVersion}"
-displayName="Template"
+displayName="FPS Monitor"
 displayURL="https://www.curseforge.com/minecraft/mc-mods/Mod-Name"
 credits=""
 authors="Ewy"

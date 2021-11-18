@@ -1,5 +1,6 @@
 package com.ewyboy.fps;
 
+import com.ewyboy.fps.cleint.FpsDisplay;
 import com.ewyboy.fps.config.Settings;
 import com.ewyboy.fps.util.ModLogger;
 import com.mojang.blaze3d.matrix.MatrixStack;
@@ -46,58 +47,9 @@ public class FpsMonitor {
         );
     }
 
-
     @SubscribeEvent
     public void clientRegister(FMLClientSetupEvent event) {
-        MinecraftForge.EVENT_BUS.register(new FPS());
-    }
-
-    public static final class FPS {
-
-        // Percent to Hex
-
-        @SubscribeEvent
-        public void onRenderOverlay(RenderGameOverlayEvent.Post event) {
-            if (event.getType() == RenderGameOverlayEvent.ElementType.ALL) {
-                renderOverlay(event.getMatrixStack());
-            }
-        }
-
-        public void renderOverlay(MatrixStack stack) {
-            Minecraft mc = Minecraft.getInstance();
-
-            if (mc.options.renderDebug) {
-                return;
-            }
-
-            MainWindow window = mc.getWindow();
-
-            String[] fps = mc.fpsString.split(" ");
-            String currentFPS = fps[0] + " " + fps[1].toUpperCase();
-
-            mc.font.drawShadow(stack, currentFPS, 2, 2, 0xff00ffff, false);
-
-            String ping;
-
-            NetworkPlayerInfo entry = Objects.requireNonNull(mc.player).connection.getPlayerInfo(mc.player.getUUID());
-
-            if (entry != null) {
-                ping = entry.getLatency() + " ms";
-            }
-
-            //ModLogger.info("100% :: " + fromPercent(100));
-            //ModLogger.info("75% :: " + fromPercent(75));
-            //ModLogger.info("50% :: " + fromPercent(50));
-            //ModLogger.info("25% :: " + fromPercent(25));
-            //ModLogger.info("0% :: " + fromPercent(0));
-
-            if (entry != null) {
-                mc.font.drawShadow(stack, currentFPS, 2, 12, 0xff00ffff, false);
-            }
-
-
-
-        }
+        MinecraftForge.EVENT_BUS.register(new FpsDisplay());
     }
 
 }
