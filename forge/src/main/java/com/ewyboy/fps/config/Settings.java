@@ -22,7 +22,6 @@ public class Settings {
         public final ForgeConfigSpec.ConfigValue<Boolean> displayFps;
         public final ForgeConfigSpec.ConfigValue<Integer> fpsPosX;
         public final ForgeConfigSpec.ConfigValue<Integer> fpsPosY;
-        public final ForgeConfigSpec.ConfigValue<Integer> fpsColor;
         public final ForgeConfigSpec.ConfigValue<Integer> fpsTransparency;
         public final ForgeConfigSpec.ConfigValue<Boolean> fpsShadow;
         public final ForgeConfigSpec.EnumValue<EnumColor> fpsFormatting;
@@ -37,10 +36,6 @@ public class Settings {
 
         public Integer getFpsPosY() {
             return fpsPosY.get();
-        }
-
-        public Integer getFpsColor() {
-            return fpsColor.get();
         }
 
         public Integer getFpsTransparency() {
@@ -58,7 +53,6 @@ public class Settings {
         public final ForgeConfigSpec.ConfigValue<Boolean> displayPing;
         public final ForgeConfigSpec.ConfigValue<Integer> pingPosX;
         public final ForgeConfigSpec.ConfigValue<Integer> pingPosY;
-        public final ForgeConfigSpec.ConfigValue<Integer> pingColor;
         public final ForgeConfigSpec.ConfigValue<Integer> pingTransparency;
         public final ForgeConfigSpec.ConfigValue<Boolean> pingShadow;
         public final ForgeConfigSpec.EnumValue<EnumColor> pingFormatting;
@@ -75,10 +69,6 @@ public class Settings {
             return pingPosY.get();
         }
 
-        public Integer getPingColor() {
-            return pingColor.get();
-        }
-
         public Integer getPingTransparency() {
             return pingTransparency.get();
         }
@@ -89,6 +79,37 @@ public class Settings {
 
         public EnumColor getPingFormatting() {
             return pingFormatting.get();
+        }
+
+        public final ForgeConfigSpec.ConfigValue<Boolean> displayMemory;
+        public final ForgeConfigSpec.ConfigValue<Integer> memoryPosX;
+        public final ForgeConfigSpec.ConfigValue<Integer> memoryPosY;
+        public final ForgeConfigSpec.ConfigValue<Integer> memoryTransparency;
+        public final ForgeConfigSpec.ConfigValue<Boolean> memoryShadow;
+        public final ForgeConfigSpec.EnumValue<EnumColor> memoryFormatting;
+
+        public Boolean getDisplayMemory() {
+            return displayMemory.get();
+        }
+
+        public Integer getMemoryPosX() {
+            return memoryPosX.get();
+        }
+
+        public Integer getMemoryPosY() {
+            return memoryPosY.get();
+        }
+
+        public Integer getMemoryTransparency() {
+            return memoryTransparency.get();
+        }
+
+        public Boolean getMemoryShadow() {
+            return memoryShadow.get();
+        }
+
+        public EnumColor getMemoryFormatting() {
+            return memoryFormatting.get();
         }
 
         ClientSettings(ForgeConfigSpec.Builder builder) {
@@ -108,11 +129,6 @@ public class Settings {
                     .comment("Sets the y")
                     .translation("fps.settings.fps.posY")
                     .define("pos_y", 2
-                );
-                this.fpsColor = builder
-                    .comment("Sets text color")
-                    .translation("fps.settings.fps.color")
-                    .defineInRange("color", 0x00FFAA, 0, 0xFFFFFF
                 );
                 this.fpsTransparency = builder
                     .comment("Sets text color")
@@ -147,14 +163,9 @@ public class Settings {
                         .translation("fps.settings.ping.pos_y")
                         .define("pos_y", 12
                 );
-                this.pingColor = builder
-                        .comment("Sets text color")
-                        .translation("fps.settings.ping.color")
-                        .defineInRange("color", 0x00FFAA, 0, 0xFFFFFF
-                );
                 this.pingTransparency = builder
                         .comment("Sets text color")
-                        .translation("fps.settings.transparency")
+                        .translation("fps.settings.ping.transparency")
                         .defineInRange("transparency", 255, 0, 255
                 );
                 this.pingShadow = builder
@@ -166,6 +177,39 @@ public class Settings {
                     .comment("Set text color")
                     .translation("fps.settings.ping.formatting")
                     .defineEnum("formatting", EnumColor.AQUA
+                );
+            builder.pop();
+
+            builder.push("memory");
+                this.displayMemory = builder
+                    .comment("Display Ping")
+                    .translation("fps.settings.memory.display_ping")
+                    .define("display_ping", true
+                    );
+                this.memoryPosX = builder
+                    .comment("Sets the x")
+                    .translation("fps.settings.memory.pos_x")
+                    .define("pos_x", 2
+                    );
+                this.memoryPosY = builder
+                    .comment("Sets the y")
+                    .translation("fps.settings.memory.pos_y")
+                    .define("pos_y", 22
+                    );
+                this.memoryTransparency = builder
+                    .comment("Sets text color")
+                    .translation("fps.settings.memory.transparency")
+                    .defineInRange("transparency", 255, 0, 255
+                    );
+                this.memoryShadow = builder
+                    .comment("Sets text shadow")
+                    .translation("fps.settings.memory.shadow")
+                    .define("shadow", true
+                    );
+                this.memoryFormatting = builder
+                    .comment("Set text color")
+                    .translation("fps.settings.memory.formatting")
+                    .defineEnum("formatting", EnumColor.GOLD
                 );
             builder.pop();
         }

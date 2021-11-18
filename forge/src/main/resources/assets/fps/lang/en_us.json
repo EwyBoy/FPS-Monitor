@@ -1,0 +1,5 @@
+{
+  "fps.display.fps": "FPS: %s",
+  "fps.display.ping": "Ping: %s",
+  "fps.display.memory": "Mem: %s%% %s/%sMB"
+}
