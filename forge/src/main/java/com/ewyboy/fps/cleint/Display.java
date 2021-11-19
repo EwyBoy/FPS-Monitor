@@ -1,7 +1,8 @@
 package com.ewyboy.fps.cleint;
 
+import com.ewyboy.fps.enums.TextColor;
 import com.ewyboy.fps.config.Settings;
-import com.ewyboy.fps.enums.EnumColor;
+import com.ewyboy.fps.util.Translation;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.network.play.NetworkPlayerInfo;
@@ -10,6 +11,8 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class FpsDisplay {
@@ -28,69 +31,62 @@ public class FpsDisplay {
             return;
         }
 
+        List<String> entries = new ArrayList<>();
         Settings.ClientSettings clientSettings = Settings.CLIENT_SETTINGS;
 
-        renderFps(stack, mc, clientSettings);
-        renderPing(stack, mc, clientSettings);
-        renderMemory(stack, mc, clientSettings);
+        String fps = getFps(mc, clientSettings);
+        String memory = getMemory(clientSettings);
+        String ping = getPing(mc, clientSettings);
 
-    }
+        if (fps != null) entries.add(fps);
+        if (memory != null) entries.add(memory);
+        if (ping != null) entries.add(ping);
 
-    private void renderFps(MatrixStack stack, Minecraft mc, Settings.ClientSettings clientSettings) {
-        if (clientSettings.getDisplayFps()) {
+        int row = 0;
 
-            String formattedFps = formatText(mc.fpsString.split("\\s+")[0], "fps.display.fps", clientSettings.getFpsFormatting());
-
-            float textPosX = clampVertical(mc, clientSettings.getFpsPosX(), formattedFps);
-            float textPosY = clampHorizontal(mc, clientSettings.getFpsPosY());
-
-            int color = getTextColorAndAlpha(clientSettings.getFpsTransparency());
-
-            draw(stack, mc, formattedFps, textPosX, textPosY, color, clientSettings.getFpsShadow());
+        for (String entry : entries) {
+            float textPosX = clampVertical(mc, clientSettings.getPosX(), entry);
+            float textPosY = clampHorizontal(mc, clientSettings.getPosY() + row);
+            row += mc.font.lineHeight + (mc.font.lineHeight / 2);
+            draw(stack, mc, entry, textPosX, textPosY, getTextColorAndAlpha(clientSettings.getTransparency()), clientSettings.getShadow());
         }
     }
 
-    private void renderPing(MatrixStack stack, Minecraft mc, Settings.ClientSettings clientSettings) {
-        if (clientSettings.getDisplayPing()) {
+    private String getFps(Minecraft mc, Settings.ClientSettings clientSettings) {
+        if (clientSettings.getToggleFps()) {
+            return formatText(mc.fpsString.split("\\s+")[0], Translation.Display.FPS, clientSettings.getFpsColor());
+        }
+        return null;
+    }
+
+    private String getPing(Minecraft mc, Settings.ClientSettings clientSettings) {
+        if (clientSettings.getTogglePing()) {
             NetworkPlayerInfo entry = Objects.requireNonNull(mc.player).connection.getPlayerInfo(mc.player.getUUID());
-
             if (entry != null) {
-                String formattedPing = formatText(String.valueOf(entry.getLatency()), "fps.display.ping", clientSettings.getPingFormatting());
-
-                float textPosX = clampVertical(mc, clientSettings.getPingPosX(), formattedPing);
-                float textPosY = clampHorizontal(mc, clientSettings.getPingPosY());
-
-                int color = getTextColorAndAlpha(clientSettings.getPingTransparency());
-
-                draw(stack, mc, formattedPing, textPosX, textPosY, color, clientSettings.getPingShadow());
+                return formatText(String.valueOf(entry.getLatency()), Translation.Display.PING, clientSettings.getPingColor());
             }
         }
+        return null;
     }
 
-    private void renderMemory(MatrixStack stack, Minecraft mc, Settings.ClientSettings clientSettings) {
-        if (clientSettings.getDisplayPing()) {
-
+    private String getMemory(Settings.ClientSettings clientSettings) {
+        if (clientSettings.getToggleMemory()) {
             int max = (int) (Runtime.getRuntime().maxMemory() / 1024 / 1024);
             int free = (int) (Runtime.getRuntime().freeMemory() / 1024 / 1024);
             int total = (int) (Runtime.getRuntime().totalMemory() / 1024 / 1024);
 
             int difference = total - free;
 
-            String formattedMemory = formatText(
-                    String.valueOf(difference * 100 / max),
-                    String.valueOf(difference),
-                    String.valueOf(max),
-                    "fps.display.memory",
-                    clientSettings.getMemoryFormatting()
+            return formatText(
+                String.valueOf(difference * 100 / max),
+                String.valueOf(difference),
+                String.valueOf(max),
+                Translation.Display.MEMORY,
+                clientSettings.getMemoryColor()
             );
-
-            float textPosX = clampVertical(mc, clientSettings.getMemoryPosX(), formattedMemory);
-            float textPosY = clampHorizontal(mc, clientSettings.getMemoryPosY());
-
-            int color = getTextColorAndAlpha(clientSettings.getMemoryTransparency());
-
-            draw(stack, mc, formattedMemory, textPosX, textPosY, color, clientSettings.getMemoryShadow());
         }
+
+        return null;
     }
 
     private float clampVertical(Minecraft mc, float posX, String text) {
@@ -111,12 +107,12 @@ public class FpsDisplay {
         return ((alpha & 0xFF) << 24) | 0xffffff;
     }
 
-    private String formatText(String text, String translation, EnumColor color) {
+    private String formatText(String text, String translation, TextColor color) {
         ITextComponent fpsString = new TranslationTextComponent(translation, text);
         return color + fpsString.getString();
     }
 
-    private String formatText(String text1, String text2, String text3, String translation, EnumColor color) {
+    private String formatText(String text1, String text2, String text3, String translation, TextColor color) {
         ITextComponent fpsString = new TranslationTextComponent(translation, text1, text2, text3);
         return color + fpsString.getString();
     }
