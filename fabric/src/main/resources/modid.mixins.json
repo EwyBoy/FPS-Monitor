@@ -6,7 +6,7 @@
   "mixins": [
   ],
   "client": [
-    "ExampleMixin"
+    "com.ewyboy.fps.mixin.ExampleMixin"
   ],
   "injectors": {
     "defaultRequire": 1

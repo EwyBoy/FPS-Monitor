@@ -1,14 +1,11 @@
-package net.fabricmc.example;
+package com.ewyboy.fps;
 
-import net.fabricmc.api.ModInitializer;
+import net.fabricmc.api.ClientModInitializer;
 
-public class ExampleMod implements ModInitializer {
+public class FpsMonitor implements ClientModInitializer {
+
 	@Override
-	public void onInitialize() {
-		// This code runs as soon as Minecraft is in a mod-load-ready state.
-		// However, some things (like resources) may still be uninitialized.
-		// Proceed with mild caution.
+	public void onInitializeClient() {
 
-		System.out.println("Hello Fabric world!");
 	}
 }

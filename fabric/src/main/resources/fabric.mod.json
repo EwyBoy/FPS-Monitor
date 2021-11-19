@@ -19,7 +19,7 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "net.fabricmc.example.ExampleMod"
+      "com.ewyboy.fps.FpsMonitor"
     ]
   },
   "mixins": [

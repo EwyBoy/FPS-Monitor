@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class FpsDisplay {
+public class Display {
 
     @SubscribeEvent
     public void onRenderOverlay(RenderGameOverlayEvent.Post event) {
@@ -48,7 +48,7 @@ public class FpsDisplay {
             float textPosX = clampVertical(mc, clientSettings.getPosX(), entry);
             float textPosY = clampHorizontal(mc, clientSettings.getPosY() + row);
             row += mc.font.lineHeight + (mc.font.lineHeight / 2);
-            draw(stack, mc, entry, textPosX, textPosY, getTextColorAndAlpha(clientSettings.getTransparency()), clientSettings.getShadow());
+            draw(stack, mc, entry, textPosX, textPosY, getTextColorAndAlpha(clientSettings.getTransparency(), clientSettings.getFpsColor().getColor()), clientSettings.getShadow());
         }
     }
 
@@ -105,6 +105,10 @@ public class FpsDisplay {
 
     private int getTextColorAndAlpha(int alpha) {
         return ((alpha & 0xFF) << 24) | 0xffffff;
+    }
+
+    private int getTextColorAndAlpha(int alpha, int color) {
+        return ((alpha & 0xFF) << 24) | color;
     }
 
     private String formatText(String text, String translation, TextColor color) {

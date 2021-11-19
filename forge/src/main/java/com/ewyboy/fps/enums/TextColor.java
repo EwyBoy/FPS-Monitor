@@ -2,12 +2,13 @@ package com.ewyboy.fps.enums;
 
 import javax.annotation.Nullable;
 
-public enum EnumColor {
+public enum TextColor {
 
     BLACK("BLACK", '0', 0),
     DARK_BLUE("DARK_BLUE", '1', 170),
     DARK_GREEN("DARK_GREEN", '2', 43520),
     DARK_AQUA("DARK_AQUA", '3', 43690),
+    CYAN("CYAN", 'x', 65450),
     DARK_RED("DARK_RED", '4', 11141120),
     DARK_PURPLE("DARK_PURPLE", '5', 11141290),
     GOLD("GOLD", '6', 16755200),
@@ -23,16 +24,19 @@ public enum EnumColor {
 
     private final String toString;
 
-    @Nullable
     private final Integer color;
 
-    EnumColor(String text, char code, @Nullable Integer color) {
+    TextColor(String text, char code, @Nullable Integer color) {
         this(code, color);
     }
 
-    EnumColor(char code, @Nullable Integer color) {
+    TextColor(char code, @Nullable Integer color) {
         this.color = color;
         this.toString = "\u00a7" + code;
+    }
+
+    public Integer getColor() {
+        return color;
     }
 
     public String toString() {

@@ -1,5 +1,21 @@
 {
-  "fps.display.fps": "FPS: %s",
-  "fps.display.ping": "Ping: %s",
-  "fps.display.memory": "Mem: %s%% %s/%sMB"
+  "fps.display.fps":    "FPS: %s",
+  "fps.display.ping":   "Ping: %s",
+  "fps.display.memory": "Mem: %s%% %s/%sMB",
+
+  "fps.key.toggle_fps":    "Toggle Fps",
+  "fps.key.toggle_ping":   "Toggle Ping",
+  "fps.key.toggle_memory": "Toggle Memory",
+
+  "fps.settings.display.display_pos_x":           "Display Position - Horizontal",
+  "fps.settings.display.display_pos_y":           "Display Position - Vertical",
+  "fps.settings.display.text_transparency":       "Text Transparency",
+  "fps.settings.display.has_text_shadow":         "Has Text Shadow",
+
+  "fps.settings.components.fps.toggle_fps":       "Toggles FPS HUD",
+  "fps.settings.components.fps.color":            "Selects FPS Font Color",
+  "fps.settings.components.ping.toggle_ping":     "Toggles Ping HUD",
+  "fps.settings.components.ping.color":           "Selects Ping Font Color",
+  "fps.settings.components.memory.toggle_memory": "Toggles Memory HUD",
+  "fps.settings.components.memory.color":         "Selects Memory Font Color"
 }

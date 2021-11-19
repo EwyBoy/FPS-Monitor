@@ -1,19 +1,102 @@
 plugins {
-    id 'java'
+    id 'fabric-loom' version '0.9-SNAPSHOT'
+    id 'com.matthewprenger.cursegradle' version '1.4.0'
+    id 'maven-publish'
 }
 
-group 'org.example'
-version '1.0-SNAPSHOT'
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
+
+archivesBaseName = project.archives_base_name
+version = project.mod_version
+group = project.maven_group
 
 repositories {
-    mavenCentral()
+    maven { url = "https://maven.shedaniel.me/" }
+    maven { url = "https://maven.terraformersmc.com/" }
+    maven { url = "https://jitpack.io" }
 }
 
 dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
+    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+
+    includeFabricApiModule "fabric-key-binding-api-v1"
+    includeFabricApiModule "fabric-lifecycle-events-v1"
+
+    modImplementation "io.github.prospector:modmenu:${project.modmenu_version}"
+
+    modApi("me.shedaniel.cloth:config-2:${project.cloth_config_version}") {
+        exclude(group: "net.fabricmc.fabric-api")
+    }
+    include("me.shedaniel.cloth:config-2:${project.cloth_config_version}") {
+        exclude(group: "net.fabricmc.fabric-api")
+    }
+    modApi("me.sargunvohra.mcmods:autoconfig1u:${project.autoconfig_version}") {
+        exclude(group: "net.fabricmc.fabric-api")
+    }
+    include("me.sargunvohra.mcmods:autoconfig1u:${project.autoconfig_version}") {
+        exclude(group: "net.fabricmc.fabric-api")
+    }
+
+
+    // TODO REMOVE
+    // This greatly reduces the amount of time needed to start the game, but is generally unsafe in production
+    modRuntime("com.github.SuperCoder7979:databreaker:0.2.6") {
+        transitive = false
+    }
+
 }
 
-test {
-    useJUnitPlatform()
+def includeFabricApiModule(String moduleName) {
+    Object dependency = fabricApi.module(moduleName, project.fabric_version)
+    dependencies.modImplementation(dependency)
+    dependencies.include(dependency)
+}
+
+processResources {
+    inputs.property "version", project.version
+
+    filesMatching("fabric.mod.json") {
+        expand "version": project.version
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+
+    it.options.encoding = "UTF-8"
+    def targetVersion = 8
+
+    if (JavaVersion.current().isJava9Compatible()) {
+        it.options.release = targetVersion
+    }
+}
+
+java {
+    withSourcesJar()
+}
+
+jar {
+    from("LICENSE") {
+        rename { "${it}_${project.archivesBaseName}"}
+    }
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            artifact(remapJar) {
+                builtBy remapJar
+            }
+            artifact(sourcesJar) {
+                builtBy remapSourcesJar
+            }
+        }
+    }
+
+    repositories {
+
+    }
 }
