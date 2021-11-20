@@ -1,29 +1,33 @@
 {
   "schemaVersion": 1,
-  "id": "modid",
+  "id": "fps",
   "version": "${version}",
 
-  "name": "Example Mod",
-  "description": "This is an example description! Tell everyone what your mod is about!",
+  "name": "FPS Monitor",
+  "description": "Display Fps, ping and memory on the screen.",
   "authors": [
-    "Me!"
+    "Ewy"
   ],
   "contact": {
-    "homepage": "https://fabricmc.net/",
-    "sources": "https://github.com/FabricMC/fabric-example-mod"
+    "homepage": "https://github.com/EwyBoy/FPS-Monitor",
+    "sources": "https://github.com/EwyBoy/FPS-Monitor",
+    "issues": "https://github.com/EwyBoy/FPS-Monitor/issues"
   },
 
-  "license": "CC0-1.0",
-  "icon": "assets/modid/icon.png",
+  "license": "MIT",
+  "icon": "assets/fps/icon.png",
 
-  "environment": "*",
+  "environment": "client",
   "entrypoints": {
-    "main": [
+    "client": [
       "com.ewyboy.fps.FpsMonitor"
+    ],
+    "modmenu": [
+      "com.ewyboy.fps.config.SettingsMenu"
     ]
   },
   "mixins": [
-    "modid.mixins.json"
+    "fps.mixins.json"
   ],
 
   "depends": {

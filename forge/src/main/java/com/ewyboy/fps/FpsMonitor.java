@@ -18,8 +18,8 @@ import static com.ewyboy.fps.FpsMonitor.MOD_ID;
 @Mod(MOD_ID)
 public class FpsMonitor {
 
-    public static final String NAME = "FPS Monitor";
     public static final String MOD_ID = "fps";
+    public static final String NAME = "FPS Monitor";
 
     public FpsMonitor() {
         ignoreServerOnly();

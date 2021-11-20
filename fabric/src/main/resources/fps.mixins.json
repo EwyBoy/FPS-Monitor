@@ -1,12 +1,12 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "net.fabricmc.example.mixin",
+  "package": "com.ewyboy.fps.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
   ],
   "client": [
-    "com.ewyboy.fps.mixin.ExampleMixin"
+    "Display"
   ],
   "injectors": {
     "defaultRequire": 1
