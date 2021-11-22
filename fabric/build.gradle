@@ -81,14 +81,19 @@ curseforge {
         changelogType = 'markdown'
         changelog = file('CHANGELOG.md')
         releaseType = "${RELEASE_TYPE}"
-        addGameVersion 'Fabric'
+        addGameVersion "${MOD_LOADER}"
+        addGameVersion "${JAVA_VERSION}"
         addGameVersion '1.16.5'
         addGameVersion '1.16.4'
         addGameVersion '1.16.3'
         addGameVersion '1.16.2'
         addGameVersion '1.16.1'
         mainArtifact(jar) {
-            displayName = "${MOD_NAME}-${MC_VERSION_GENERAL}-${VERSION}.jar"
+            displayName = "${MOD_NAME}-${MC_VERSION_GENERAL}-${VERSION}-${MOD_LOADER}.jar"
         }
+    }
+    options {
+        forgeGradleIntegration = false
+        javaVersionAutoDetect = false
     }
 }
