@@ -2,16 +2,12 @@ package com.ewyboy.fps.mixin;
 
 import com.ewyboy.fps.config.Settings;
 import com.ewyboy.fps.config.SettingsLoader;
-import com.ewyboy.fps.enums.TextColor;
 import com.ewyboy.fps.util.Translation;
+import net.minecraft.SharedConstants;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.hud.InGameHud;
-import net.minecraft.client.gui.hud.InGameOverlayRenderer;
-import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import org.spongepowered.asm.mixin.Mixin;
@@ -34,62 +30,62 @@ public class Display {
 			return;
 		}
 
-		List<String> entries = new ArrayList<>();
 		Settings clientSettings = SettingsLoader.CONFIG;
 
-		String fps = getFps(mc, clientSettings);
-		String memory = getMemory(clientSettings);
-		String ping = getPing(mc, clientSettings);
+		if (clientSettings.toggleFps || clientSettings.togglePing || clientSettings.toggleMemory || clientSettings.enableGameWindowInfo) {
 
-		if (fps != null) entries.add(fps);
-		if (memory != null) entries.add(memory);
-		if (ping != null) entries.add(ping);
+			List<String> entries = new ArrayList<>();
+			List<Integer> colors = new ArrayList<>();
 
-		int row = 0;
+			String fps = getFps(mc);
+			String memory = getMemory();
+			String ping = getPing(mc);
 
-		for (String entry : entries) {
-			float textPosX = clampVertical(mc, clientSettings.posX, entry);
-			float textPosY = clampHorizontal(mc, clientSettings.posY + row);
-			row += mc.textRenderer.fontHeight + (mc.textRenderer.fontHeight / 2);
-			draw(stack, mc, entry, textPosX, textPosY, getTextColorAndAlpha(clientSettings.transparency, clientSettings.fpsColor.getColor()), clientSettings.shadow);
-		}
-	}
+			if (clientSettings.toggleFps) { entries.add(fps);colors.add(clientSettings.fpsColor); }
+			if (clientSettings.toggleMemory) { entries.add(memory); colors.add(clientSettings.memoryColor); }
+			if (clientSettings.togglePing) { entries.add(ping); colors.add(clientSettings.pingColor); }
 
-	private String getFps(MinecraftClient mc, Settings clientSettings) {
-		if (clientSettings.toggleFps) {
-			return formatText(mc.fpsDebugString.split("\\s+")[0], Translation.Display.FPS, clientSettings.fpsColor);
-		}
-		return null;
-	}
+			int row = 0;
+			int index = 0;
 
-	private String getPing(MinecraftClient mc, Settings clientSettings) {
-		if (clientSettings.togglePing) {
-			PlayerListEntry entry = Objects.requireNonNull(mc.player).networkHandler.getPlayerListEntry(mc.player.getUuid());
-			if (entry != null) {
-				return formatText(String.valueOf(entry.getLatency()), Translation.Display.PING, clientSettings.pingColor);
+			for (String entry : entries) {
+				float textPosX = clampVertical(mc, clientSettings.posX, entry);
+				float textPosY = clampHorizontal(mc, clientSettings.posY + row);
+				row += mc.textRenderer.fontHeight + (mc.textRenderer.fontHeight / 2);
+				draw(stack, mc, entry, textPosX, textPosY, getTextColorAndAlpha(clientSettings.transparency, colors.get(index++)), clientSettings.shadow);
 			}
+
+			if (clientSettings.enableGameWindowInfo) updateTitle(mc, fps, memory, ping);
+
 		}
-		return null;
 	}
 
-	private String getMemory(Settings clientSettings) {
-		if (clientSettings.toggleMemory) {
-			int max = (int) (Runtime.getRuntime().maxMemory() / 1024 / 1024);
-			int free = (int) (Runtime.getRuntime().freeMemory() / 1024 / 1024);
-			int total = (int) (Runtime.getRuntime().totalMemory() / 1024 / 1024);
+	private void updateTitle(MinecraftClient mc, String fps, String memory, String ping) {
+		mc.getWindow().setTitle("Minecraft " + SharedConstants.getGameVersion().getName()  + " | " + fps + " | " + memory + " | " + ping);
+	}
 
-			int difference = total - free;
+	private String getFps(MinecraftClient mc) {
+		return formatText(mc.fpsDebugString.split("\\s+")[0], Translation.Display.FPS);
+	}
 
-			return formatText(
-					String.valueOf(difference * 100 / max),
-					String.valueOf(difference),
-					String.valueOf(max),
-					Translation.Display.MEMORY,
-					clientSettings.memoryColor
-			);
-		}
+	private String getPing(MinecraftClient mc) {
+		PlayerListEntry entry = Objects.requireNonNull(mc.player).networkHandler.getPlayerListEntry(mc.player.getUuid());
+		return entry != null ? formatText(String.valueOf(entry.getLatency()), Translation.Display.PING) : "";
+	}
 
-		return null;
+	private String getMemory() {
+		int max = (int) (Runtime.getRuntime().maxMemory() / 1024 / 1024);
+		int free = (int) (Runtime.getRuntime().freeMemory() / 1024 / 1024);
+		int total = (int) (Runtime.getRuntime().totalMemory() / 1024 / 1024);
+
+		int difference = total - free;
+
+		return formatText(
+				String.valueOf(difference * 100 / max),
+				String.valueOf(difference),
+				String.valueOf(max),
+				Translation.Display.MEMORY
+		);
 	}
 
 	private float clampVertical(MinecraftClient mc, float posX, String text) {
@@ -106,22 +102,18 @@ public class Display {
 		return posY;
 	}
 
-	private int getTextColorAndAlpha(int alpha) {
-		return ((alpha & 0xFF) << 24) | 0xffffff;
-	}
-
 	private int getTextColorAndAlpha(int alpha, int color) {
 		return ((alpha & 0xFF) << 24) | color;
 	}
 
-	private String formatText(String text, String translation, TextColor color) {
+	private String formatText(String text, String translation) {
 		Text fpsString = new TranslatableText(translation, text);
-		return color + fpsString.getString();
+		return fpsString.getString();
 	}
 
-	private String formatText(String text1, String text2, String text3, String translation, TextColor color) {
+	private String formatText(String text1, String text2, String text3, String translation) {
 		Text fpsString = new TranslatableText(translation, text1, text2, text3);
-		return color + fpsString.getString();
+		return fpsString.getString();
 	}
 
 	private void draw(MatrixStack stack, MinecraftClient mc, String text, float posX, float posY, int color, boolean shadow) {

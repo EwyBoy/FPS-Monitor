@@ -18,6 +18,7 @@ public class Keybindings {
     private static KeyBinding fps;
     private static KeyBinding ping;
     private static KeyBinding memory;
+    private static KeyBinding all;
 
     public static void setup() {
         initKeyBinding();
@@ -31,17 +32,27 @@ public class Keybindings {
         ClientRegistry.registerKeyBinding(ping);
         memory = new KeyBinding(Translation.Key.MEMORY, KeyConflictContext.IN_GAME, InputMappings.Type.KEYSYM, GLFW.GLFW_DONT_CARE, FpsMonitor.NAME);
         ClientRegistry.registerKeyBinding(memory);
+        all = new KeyBinding(Translation.Key.ALL, KeyConflictContext.IN_GAME, InputMappings.Type.KEYSYM, GLFW.GLFW_DONT_CARE, FpsMonitor.NAME);
+        ClientRegistry.registerKeyBinding(all);
     }
+
+    private static boolean toggleAll = false;
 
     @SubscribeEvent
     public static void onKeyInput(InputEvent.KeyInputEvent event) {
-        if(fps.consumeClick()) {
+        if(fps.consumeClick()) Settings.ClientSettings.toggle(Settings.CLIENT_SETTINGS.toggleFps);
+        if(ping.consumeClick()) Settings.ClientSettings.toggle(Settings.CLIENT_SETTINGS.togglePing);
+        if(memory.consumeClick()) Settings.ClientSettings.toggle(Settings.CLIENT_SETTINGS.toggleMemory);
+
+        if(all.consumeClick()) {
+            toggleAll = !toggleAll;
+
+            if (Settings.CLIENT_SETTINGS.getToggleFps() != toggleAll) Settings.ClientSettings.toggle(Settings.CLIENT_SETTINGS.toggleFps);
+            if (Settings.CLIENT_SETTINGS.getTogglePing() != toggleAll) Settings.ClientSettings.toggle(Settings.CLIENT_SETTINGS.togglePing);
+            if (Settings.CLIENT_SETTINGS.getToggleMemory() != toggleAll) Settings.ClientSettings.toggle(Settings.CLIENT_SETTINGS.toggleMemory);
+
             Settings.ClientSettings.toggle(Settings.CLIENT_SETTINGS.toggleFps);
-        }
-        if(ping.consumeClick()) {
             Settings.ClientSettings.toggle(Settings.CLIENT_SETTINGS.togglePing);
-        }
-        if(memory.consumeClick()) {
             Settings.ClientSettings.toggle(Settings.CLIENT_SETTINGS.toggleMemory);
         }
     }

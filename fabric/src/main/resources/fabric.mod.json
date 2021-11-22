@@ -4,18 +4,18 @@
   "version": "${version}",
 
   "name": "FPS Monitor",
-  "description": "Display Fps, ping and memory on the screen.",
+  "description": "Display FPS, ping and memory on the screen.",
   "authors": [
     "Ewy"
   ],
   "contact": {
-    "homepage": "https://github.com/EwyBoy/FPS-Monitor",
+    "homepage": "https://www.curseforge.com/minecraft/mc-mods/fps-monitor",
     "sources": "https://github.com/EwyBoy/FPS-Monitor",
     "issues": "https://github.com/EwyBoy/FPS-Monitor/issues"
   },
 
   "license": "MIT",
-  "icon": "assets/fps/icon.png",
+  "icon": "assets/fps/fps.png",
 
   "environment": "client",
   "entrypoints": {
@@ -32,10 +32,7 @@
 
   "depends": {
     "fabricloader": ">=0.7.4",
-    "fabric": "*",
-    "minecraft": "1.16.x"
-  },
-  "suggests": {
-    "another-mod": "*"
+    "minecraft": "1.16.x",
+    "fabric-key-binding-api-v1": "*"
   }
 }

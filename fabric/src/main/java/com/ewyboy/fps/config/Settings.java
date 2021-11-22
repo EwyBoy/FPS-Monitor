@@ -1,9 +1,9 @@
 package com.ewyboy.fps.config;
 
-import com.ewyboy.fps.enums.TextColor;
-import me.sargunvohra.mcmods.autoconfig1u.ConfigData;
-import me.sargunvohra.mcmods.autoconfig1u.annotation.Config;
-import me.sargunvohra.mcmods.autoconfig1u.annotation.ConfigEntry;
+
+import me.shedaniel.autoconfig.ConfigData;
+import me.shedaniel.autoconfig.annotation.Config;
+import me.shedaniel.autoconfig.annotation.ConfigEntry;
 
 @Config(name = "fps")
 public class Settings implements ConfigData {
@@ -15,16 +15,18 @@ public class Settings implements ConfigData {
     public Integer transparency = 215;
     public Boolean shadow = true;
 
-    @ConfigEntry.Gui.EnumHandler(option = ConfigEntry.Gui.EnumHandler.EnumDisplayOption.BUTTON)
-    public TextColor fpsColor = TextColor.CYAN;
+    @ConfigEntry.ColorPicker()
+    public Integer fpsColor = 65450;
     public Boolean toggleFps = true;
 
-    @ConfigEntry.Gui.EnumHandler(option = ConfigEntry.Gui.EnumHandler.EnumDisplayOption.BUTTON)
-    public TextColor pingColor = TextColor.LIGHT_PURPLE;
-    public Boolean togglePing = true;
+    @ConfigEntry.ColorPicker()
+    public Integer pingColor = 16733695;
+    public Boolean togglePing = false;
 
-    @ConfigEntry.Gui.EnumHandler(option = ConfigEntry.Gui.EnumHandler.EnumDisplayOption.BUTTON)
-    public TextColor memoryColor = TextColor.GOLD;
-    public Boolean toggleMemory = true;
+    @ConfigEntry.ColorPicker()
+    public Integer memoryColor = 16755200;
+    public Boolean toggleMemory = false;
+
+    public Boolean enableGameWindowInfo = false;
 
 }

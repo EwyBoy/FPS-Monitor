@@ -7,51 +7,39 @@ plugins {
 sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
 
-archivesBaseName = project.archives_base_name
-version = project.mod_version
-group = project.maven_group
+archivesBaseName = project.MOD_NAME
+version = project.VERSION
+group = project.MAVEN_GROUP
 
 repositories {
     maven { url = "https://maven.shedaniel.me/" }
     maven { url = "https://maven.terraformersmc.com/" }
-    maven { url = "https://jitpack.io" }
+    maven { url = "https://maven.gegy.dev" }
 }
 
 dependencies {
-    minecraft "com.mojang:minecraft:${project.minecraft_version}"
-    mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
-    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
-    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+    minecraft "com.mojang:minecraft:${project.MC_VERSION}"
+    mappings "net.fabricmc:yarn:${project.YARN_MAPPINGS}:v2"
+    modImplementation "net.fabricmc:fabric-loader:${project.LOADER_VERSION}"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.FABRIC_VERSION}"
 
     includeFabricApiModule "fabric-key-binding-api-v1"
-    includeFabricApiModule "fabric-lifecycle-events-v1"
 
-    modImplementation "io.github.prospector:modmenu:${project.modmenu_version}"
+    modImplementation "com.terraformersmc:modmenu:${project.MODMENU_VERSION}"
 
-    modApi("me.shedaniel.cloth:config-2:${project.cloth_config_version}") {
+    modApi("me.shedaniel.cloth:cloth-config-fabric:${project.CLOTH_CONFIG_VERSION}") {
         exclude(group: "net.fabricmc.fabric-api")
     }
-    include("me.shedaniel.cloth:config-2:${project.cloth_config_version}") {
+    include("me.shedaniel.cloth:cloth-config-fabric:${project.CLOTH_CONFIG_VERSION}") {
         exclude(group: "net.fabricmc.fabric-api")
     }
-    modApi("me.sargunvohra.mcmods:autoconfig1u:${project.autoconfig_version}") {
-        exclude(group: "net.fabricmc.fabric-api")
+    modRuntime ("supercoder79:databreaker:${project.DATABREAKER_VERSION}") {
+        exclude module: "fabric-loader"
     }
-    include("me.sargunvohra.mcmods:autoconfig1u:${project.autoconfig_version}") {
-        exclude(group: "net.fabricmc.fabric-api")
-    }
-
-
-    // TODO REMOVE
-    // This greatly reduces the amount of time needed to start the game, but is generally unsafe in production
-    modRuntime("com.github.SuperCoder7979:databreaker:0.2.6") {
-        transitive = false
-    }
-
 }
 
 def includeFabricApiModule(String moduleName) {
-    Object dependency = fabricApi.module(moduleName, project.fabric_version)
+    Object dependency = fabricApi.module(moduleName, project.FABRIC_VERSION)
     dependencies.modImplementation(dependency)
     dependencies.include(dependency)
 }
@@ -84,19 +72,23 @@ jar {
     }
 }
 
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            artifact(remapJar) {
-                builtBy remapJar
-            }
-            artifact(sourcesJar) {
-                builtBy remapSourcesJar
-            }
-        }
+curseforge {
+    if (project.hasProperty('CF_API_KEY')){
+        apiKey = project.getProperty('CF_API_KEY')
     }
-
-    repositories {
-
+    project {
+        id = "${PROJECT_ID}"
+        changelogType = 'markdown'
+        changelog = file('CHANGELOG.md')
+        releaseType = "${RELEASE_TYPE}"
+        addGameVersion 'Fabric'
+        addGameVersion '1.16.5'
+        addGameVersion '1.16.4'
+        addGameVersion '1.16.3'
+        addGameVersion '1.16.2'
+        addGameVersion '1.16.1'
+        mainArtifact(jar) {
+            displayName = "${MOD_NAME}-${MC_VERSION_GENERAL}-${VERSION}.jar"
+        }
     }
 }

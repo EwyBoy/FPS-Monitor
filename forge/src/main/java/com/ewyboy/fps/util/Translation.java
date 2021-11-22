@@ -12,6 +12,7 @@ public class Translation {
         public static final String FPS = "fps.key.toggle_fps";
         public static final String PING = "fps.key.toggle_ping";
         public static final String MEMORY = "fps.key.toggle_memory";
+        public static final String ALL = "fps.key.toggle_all";
     }
 
     public static final class Settings {
@@ -21,6 +22,7 @@ public class Translation {
             public static final String DISPLAY_POS_Y = "fps.settings.display.display_pos_y";
             public static final String TEXT_TRANSPARENCY = "fps.settings.display.text_transparency";
             public static final String HAS_TEXT_SHADOW = "fps.settings.display.has_text_shadow";
+            public static final String GAME_WINDOW_INFO = "fps.settings.display.game_window_info";
         }
 
         public static final class Components {

@@ -25,6 +25,7 @@ public class Settings {
         private final ForgeConfigSpec.ConfigValue<Integer> posY;
         private final ForgeConfigSpec.ConfigValue<Integer> transparency;
         private final ForgeConfigSpec.ConfigValue<Boolean> shadow;
+        private final ForgeConfigSpec.ConfigValue<Boolean> gameWindowInfo;
 
         public Integer getPosX() {
             return posX.get();
@@ -40,6 +41,10 @@ public class Settings {
 
         public Boolean getShadow() {
             return shadow.get();
+        }
+
+        public Boolean getGameWindowInfo() {
+            return gameWindowInfo.get();
         }
 
         public final ForgeConfigSpec.ConfigValue<Boolean> toggleFps;
@@ -93,7 +98,6 @@ public class Settings {
                     .translation(Translation.Settings.Display.DISPLAY_POS_Y)
                     .define("display_pos_y", 2
                 );
-
                 this.transparency = builder
                     .comment("Text Transparency [0 = INVISIBLE | 255 = SOLID]")
                     .translation(Translation.Settings.Display.TEXT_TRANSPARENCY)
@@ -103,6 +107,11 @@ public class Settings {
                     .comment("Text Shadow [Applies Drop-Shadow to Font]")
                     .translation(Translation.Settings.Display.HAS_TEXT_SHADOW)
                     .define("has_text_shadow", true
+                );
+                this.gameWindowInfo = builder
+                    .comment("Displays Information on the Game-Window Bar")
+                    .translation(Translation.Settings.Display.GAME_WINDOW_INFO)
+                    .define("game_window_info", true
                 );
 
             builder.pop();

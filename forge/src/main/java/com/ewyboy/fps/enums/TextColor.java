@@ -1,7 +1,5 @@
 package com.ewyboy.fps.enums;
 
-import javax.annotation.Nullable;
-
 public enum TextColor {
 
     BLACK("BLACK", '0', 0),
