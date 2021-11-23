@@ -27,6 +27,6 @@ public class Settings implements ConfigData {
     public Integer memoryColor = 16755200;
     public Boolean toggleMemory = false;
 
-    public Boolean enableGameWindowInfo = false;
+    public Boolean enableGameWindowInfo = true;
 
 }

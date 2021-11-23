@@ -3,22 +3,22 @@ package com.ewyboy.fps.cleint;
 import com.ewyboy.fps.FpsMonitor;
 import com.ewyboy.fps.config.Settings;
 import com.ewyboy.fps.util.Translation;
-import net.minecraft.client.settings.KeyBinding;
-import net.minecraft.client.util.InputMappings;
+import net.minecraft.client.KeyMapping;
+import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.settings.KeyConflictContext;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
+import net.minecraftforge.fmlclient.registry.ClientRegistry;
 import org.lwjgl.glfw.GLFW;
 
 public class Keybindings {
 
-    private static KeyBinding fps;
-    private static KeyBinding ping;
-    private static KeyBinding memory;
-    private static KeyBinding all;
+    private static KeyMapping fps;
+    private static KeyMapping ping;
+    private static KeyMapping memory;
+    private static KeyMapping all;
 
     public static void setup() {
         initKeyBinding();
@@ -26,13 +26,13 @@ public class Keybindings {
     }
 
     public static void initKeyBinding() {
-        fps = new KeyBinding(Translation.Key.FPS, KeyConflictContext.IN_GAME, InputMappings.Type.KEYSYM, GLFW.GLFW_DONT_CARE, FpsMonitor.NAME);
+        fps = new KeyMapping(Translation.Key.FPS, KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_DONT_CARE, FpsMonitor.NAME);
         ClientRegistry.registerKeyBinding(fps);
-        ping = new KeyBinding(Translation.Key.PING, KeyConflictContext.IN_GAME, InputMappings.Type.KEYSYM, GLFW.GLFW_DONT_CARE, FpsMonitor.NAME);
+        ping = new KeyMapping(Translation.Key.PING, KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_DONT_CARE, FpsMonitor.NAME);
         ClientRegistry.registerKeyBinding(ping);
-        memory = new KeyBinding(Translation.Key.MEMORY, KeyConflictContext.IN_GAME, InputMappings.Type.KEYSYM, GLFW.GLFW_DONT_CARE, FpsMonitor.NAME);
+        memory = new KeyMapping(Translation.Key.MEMORY, KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_DONT_CARE, FpsMonitor.NAME);
         ClientRegistry.registerKeyBinding(memory);
-        all = new KeyBinding(Translation.Key.ALL, KeyConflictContext.IN_GAME, InputMappings.Type.KEYSYM, GLFW.GLFW_DONT_CARE, FpsMonitor.NAME);
+        all = new KeyMapping(Translation.Key.ALL, KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_DONT_CARE, FpsMonitor.NAME);
         ClientRegistry.registerKeyBinding(all);
     }
 

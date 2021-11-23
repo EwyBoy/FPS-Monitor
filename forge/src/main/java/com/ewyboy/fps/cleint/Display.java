@@ -2,12 +2,12 @@ package com.ewyboy.fps.cleint;
 
 import com.ewyboy.fps.config.Settings;
 import com.ewyboy.fps.util.Translation;
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.network.play.NetworkPlayerInfo;
-import net.minecraft.util.SharedConstants;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.client.multiplayer.PlayerInfo;
+import net.minecraft.SharedConstants;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
@@ -26,7 +26,7 @@ public class Display {
         }
     }
 
-    public void renderOverlay(MatrixStack stack) {
+    public void renderOverlay(PoseStack stack) {
         Minecraft mc = Minecraft.getInstance();
 
         if (mc.options.renderDebug) {
@@ -69,7 +69,7 @@ public class Display {
     }
 
     private String getPing(Minecraft mc) {
-        NetworkPlayerInfo entry = Objects.requireNonNull(mc.player).connection.getPlayerInfo(mc.player.getUUID());
+        PlayerInfo entry = Objects.requireNonNull(mc.player).connection.getPlayerInfo(mc.player.getUUID());
         return entry != null ? formatText(String.valueOf(entry.getLatency()), Translation.Display.PING) : "";
     }
 
@@ -107,16 +107,16 @@ public class Display {
     }
 
     private String formatText(String text, String translation) {
-        ITextComponent fpsString = new TranslationTextComponent(translation, text);
+        Component fpsString = new TranslatableComponent(translation, text);
         return fpsString.getString();
     }
 
     private String formatText(String text1, String text2, String text3, String translation) {
-        ITextComponent fpsString = new TranslationTextComponent(translation, text1, text2, text3);
+        Component fpsString = new TranslatableComponent(translation, text1, text2, text3);
         return fpsString.getString();
     }
 
-    private void draw(MatrixStack stack, Minecraft mc, String text, float posX, float posY, int color, boolean shadow) {
+    private void draw(PoseStack stack, Minecraft mc, String text, float posX, float posY, int color, boolean shadow) {
         if (shadow) {
             mc.font.drawShadow(stack, text, posX, posY, color);
         } else {
