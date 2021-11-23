@@ -4,7 +4,7 @@
   "version": "${version}",
 
   "name": "FPS Monitor",
-  "description": "Display FPS, ping and memory on the screen.",
+  "description": "Display FPS, Ping and Memory in a lightweight and configurable HUD for both Fabric & Forge",
   "authors": [
     "Ewy"
   ],

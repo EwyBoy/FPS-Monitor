@@ -105,11 +105,7 @@ curseforge {
         releaseType = "${RELEASE_TYPE}"
         addGameVersion "${MOD_LOADER}"
         addGameVersion "${JAVA_VERSION}"
-        addGameVersion '1.16.5'
-        addGameVersion '1.16.4'
-        addGameVersion '1.16.3'
-        addGameVersion '1.16.2'
-        addGameVersion '1.16.1'
+        addGameVersion '1.17.1'
         mainArtifact(jar) {
             displayName = "${MODNAME}-${MC_VERSION_GENERAL}-${VERSION}-${MOD_LOADER}.jar"
         }
