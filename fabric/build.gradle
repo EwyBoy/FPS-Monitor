@@ -8,7 +8,7 @@ sourceCompatibility = JavaVersion.VERSION_17
 targetCompatibility = JavaVersion.VERSION_17
 
 archivesBaseName = project.MOD_NAME
-version = project.VERSION
+version = project.MC_VERSION_GENERAL + "-" + project.VERSION + "-" + project.MOD_LOADER
 group = project.MAVEN_GROUP
 
 repositories {
@@ -82,7 +82,7 @@ curseforge {
         addGameVersion "${MOD_LOADER}"
         addGameVersion "${JAVA_VERSION}"
         addGameVersion '1.18'
-        mainArtifact(jar) {
+        mainArtifact(remapJar) {
             displayName = "${MOD_NAME}-${MC_VERSION_GENERAL}-${VERSION}-${MOD_LOADER}.jar"
         }
     }
