@@ -66,7 +66,7 @@ java {
 
 jar {
     from("LICENSE") {
-        rename { "${it}_${project.MOD_NAME}"}
+        rename { "${it}_${project.archivesBaseName}"}
     }
 }
 
