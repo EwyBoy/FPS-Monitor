@@ -2,13 +2,12 @@ modLoader="javafml"
 loaderVersion="[32,)"
 license="MIT License"
 issueTrackerURL="https://github.com/EwyBoy/FPS-Monitor/issues"
+logoFile="logo.png"
 
 [[mods]]
 modId="fps"
 version="${file.jarVersion}"
 displayName="FPS Monitor"
-displayURL="https://www.curseforge.com/minecraft/mc-mods/fps-monitor"
-credits=""
 authors="Ewy"
 description=""
 
