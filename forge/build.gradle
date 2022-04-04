@@ -107,10 +107,6 @@ curseforge {
         addGameVersion "${JAVA_VERSION}"
         addGameVersion '1.17.1'
 
-        relations {
-            optionalDependency 'fabric-api'
-        }
-
         mainArtifact(jar) {
             displayName = "${MODNAME}-${MC_VERSION_GENERAL}-${VERSION}-${MOD_LOADER}.jar"
         }
