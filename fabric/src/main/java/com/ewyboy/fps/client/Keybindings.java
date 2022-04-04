@@ -6,6 +6,7 @@ import com.ewyboy.fps.config.SettingsLoader;
 import com.ewyboy.fps.util.Translation;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import org.lwjgl.glfw.GLFW;
@@ -18,8 +19,10 @@ public class Keybindings {
     private static KeyBinding all;
 
     public static void setup() {
-        initKeyBinding();
-        clickEvent();
+        if (FabricLoader.getInstance().isModLoaded("fabric")) {
+            initKeyBinding();
+            clickEvent();
+        }
     }
 
     private static void initKeyBinding() {
