@@ -6,6 +6,7 @@ import com.ewyboy.fps.util.Translation;
 import com.mojang.authlib.minecraft.client.MinecraftClient;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.terraformersmc.modmenu.util.TranslationUtil;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.SharedConstants;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -65,7 +66,9 @@ public class Display {
 	}
 
 	private void updateTitle(Minecraft mc, String fps, String memory, String ping) {
-		mc.getWindow().setTitle("Minecraft " + SharedConstants.getCurrentVersion().getName()  + " | " + fps + " | " + memory + " | " + ping);
+		if (!FabricLoader.getInstance().isModLoaded("barista")) {
+			mc.getWindow().setTitle("Minecraft " + SharedConstants.getCurrentVersion().getName()  + " | " + fps + " | " + memory + " | " + ping);
+		}
 	}
 
 	private String getFps(Minecraft mc) {
