@@ -3,6 +3,7 @@ package com.ewyboy.fps.mixin;
 import com.ewyboy.fps.config.Settings;
 import com.ewyboy.fps.config.SettingsLoader;
 import com.ewyboy.fps.util.Translation;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.SharedConstants;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.hud.InGameHud;
@@ -61,7 +62,9 @@ public class Display {
 	}
 
 	private void updateTitle(MinecraftClient mc, String fps, String memory, String ping) {
-		mc.getWindow().setTitle("Minecraft " + SharedConstants.getGameVersion().getName()  + " | " + fps + " | " + memory + " | " + ping);
+		if (!FabricLoader.getInstance().isModLoaded("barista")) {
+			mc.getWindow().setTitle("Minecraft " + SharedConstants.getGameVersion().getName()  + " | " + fps + " | " + memory + " | " + ping);
+		}
 	}
 
 	private String getFps(MinecraftClient mc) {
