@@ -3,17 +3,12 @@ package com.ewyboy.fps.mixin;
 import com.ewyboy.fps.config.Settings;
 import com.ewyboy.fps.config.SettingsLoader;
 import com.ewyboy.fps.util.Translation;
-import com.mojang.authlib.minecraft.client.MinecraftClient;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.terraformersmc.modmenu.util.TranslationUtil;
 import net.minecraft.SharedConstants;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.multiplayer.PlayerInfo;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.server.players.PlayerList;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -111,12 +106,12 @@ public class Display {
 	}
 
 	private String formatText(String text, String translation) {
-		Component fpsString = new TranslatableComponent(translation, text);
+		Component fpsString = Component.translatable(translation, text);
 		return fpsString.getString();
 	}
 
 	private String formatText(String text1, String text2, String text3, String translation) {
-		Component fpsString = new TranslatableComponent(translation, text1, text2, text3);
+		Component fpsString = Component.translatable(translation, text1, text2, text3);
 		return fpsString.getString();
 	}
 

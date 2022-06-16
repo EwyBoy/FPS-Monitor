@@ -7,7 +7,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.PlayerInfo;
 import net.minecraft.SharedConstants;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
@@ -22,7 +21,7 @@ public class Display {
     @SubscribeEvent
     public void onRenderOverlay(RenderGameOverlayEvent.Post event) {
         if (event.getType() == RenderGameOverlayEvent.ElementType.ALL) {
-            renderOverlay(event.getMatrixStack());
+            renderOverlay(event.getPoseStack());
         }
     }
 
@@ -107,12 +106,12 @@ public class Display {
     }
 
     private String formatText(String text, String translation) {
-        Component fpsString = new TranslatableComponent(translation, text);
+        Component fpsString = Component.translatable(translation, text);
         return fpsString.getString();
     }
 
     private String formatText(String text1, String text2, String text3, String translation) {
-        Component fpsString = new TranslatableComponent(translation, text1, text2, text3);
+        Component fpsString = Component.translatable(translation, text1, text2, text3);
         return fpsString.getString();
     }
 
