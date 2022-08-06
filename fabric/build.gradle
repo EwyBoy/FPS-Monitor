@@ -82,7 +82,8 @@ curseforge {
         releaseType = "${RELEASE_TYPE}"
         addGameVersion "${MOD_LOADER}"
         addGameVersion "${JAVA_VERSION}"
-        addGameVersion '1.19'
+        addGameVersion '1.19.2'
+        addGameVersion '1.19.1'
 
         relations {
             optionalDependency 'fabric-api'
