@@ -47,7 +47,6 @@ public class FpsMonitor {
         MinecraftForge.EVENT_BUS.register(new Keybindings());
     }
 
-    //Make sure the mod being absent on the other network side does not cause the client to display the server as incompatible
     private void ignoreServerOnly() {
         ModLoadingContext.get().registerExtensionPoint(IExtensionPoint.DisplayTest.class, () ->
                 new IExtensionPoint.DisplayTest(() -> "You Can Write Whatever The Fuck You Want Here", (YouCanWriteWhatEverTheFuckYouWantHere, ICreatedSlimeBlocks2YearsBeforeMojangDid) -> ICreatedSlimeBlocks2YearsBeforeMojangDid)

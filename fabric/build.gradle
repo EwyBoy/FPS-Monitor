@@ -33,13 +33,10 @@ dependencies {
     modApi("me.shedaniel.cloth:cloth-config-fabric:${project.CLOTH_CONFIG_VERSION}") {
         exclude(group: "net.fabricmc.fabric-api")
     }
+
     include("me.shedaniel.cloth:cloth-config-fabric:${project.CLOTH_CONFIG_VERSION}") {
         exclude(group: "net.fabricmc.fabric-api")
     }
-
-    /*modRuntime ("supercoder79:databreaker:${project.DATABREAKER_VERSION}") {
-        exclude module: "fabric-loader"
-    }*/
 }
 
 def includeFabricApiModule(String moduleName) {
@@ -82,7 +79,7 @@ curseforge {
         releaseType = "${RELEASE_TYPE}"
         addGameVersion "${MOD_LOADER}"
         addGameVersion "${JAVA_VERSION}"
-        addGameVersion '1.19.4'
+        addGameVersion '1.20'
         relations {
             optionalDependency 'fabric-api'
         }

@@ -7,6 +7,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.SharedConstants;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.multiplayer.PlayerInfo;
 import net.minecraft.network.chat.Component;
 import org.spongepowered.asm.mixin.Mixin;
@@ -22,7 +23,7 @@ import java.util.Objects;
 public class Display {
 
 	@Inject(at = @At("TAIL"), method = "render")
-	public void init(PoseStack stack, float deltaTime, CallbackInfo info) {
+	public void init(GuiGraphics stack, float deltaTime, CallbackInfo info) {
 		Minecraft mc = Minecraft.getInstance();
 
 		if (mc.options.renderDebug) {
@@ -115,11 +116,7 @@ public class Display {
 		return fpsString.getString();
 	}
 
-	private void draw(PoseStack stack, Minecraft mc, String text, float posX, float posY, int color, boolean shadow) {
-		if (shadow) {
-			mc.font.drawShadow(stack, text, posX, posY, color);
-		} else {
-			mc.font.draw(stack, text, posX, posY, color);
-		}
+	private void draw(GuiGraphics stack, Minecraft mc, String text, float posX, float posY, int color, boolean shadow) {
+		stack.drawString(mc.font, text, (int) posX, (int) posY, color, shadow);
 	}
 }

@@ -4,6 +4,7 @@ import com.ewyboy.fps.config.Settings;
 import com.ewyboy.fps.util.Translation;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.multiplayer.PlayerInfo;
 import net.minecraft.SharedConstants;
 import net.minecraft.network.chat.Component;
@@ -22,11 +23,11 @@ public class Display {
     @SubscribeEvent
     public void onRenderOverlay(RenderGuiOverlayEvent.Post event) {
         if (event.getOverlay() != VanillaGuiOverlay.DEBUG_TEXT.type()) {
-            renderOverlay(event.getPoseStack());
+            renderOverlay(event.getGuiGraphics());
         }
     }
 
-    public void renderOverlay(PoseStack stack) {
+    public void renderOverlay(GuiGraphics stack) {
         Minecraft mc = Minecraft.getInstance();
 
         if (mc.options.renderDebug) {
@@ -52,7 +53,7 @@ public class Display {
                 float textPosX = clampVertical(mc, clientSettings.getPosX(), entry);
                 float textPosY = clampHorizontal(mc, clientSettings.getPosY() + row);
                 row += mc.font.lineHeight + (mc.font.lineHeight / 2);
-                draw(stack, mc, entry, textPosX, textPosY, getTextColorAndAlpha(clientSettings.getTransparency(), defaultColor), clientSettings.getShadow());
+                draw(stack, mc, entry, textPosX, textPosY, getTextColorAndAlpha(clientSettings.getTransparency()), clientSettings.getShadow());
             }
 
             if (clientSettings.getGameWindowInfo()) updateTitle(mc, fps, memory, ping);
@@ -83,8 +84,7 @@ public class Display {
         return formatText(
                 String.valueOf(difference * 100 / max),
                 String.valueOf(difference),
-                String.valueOf(max),
-                Translation.Display.MEMORY
+                String.valueOf(max)
         );
     }
 
@@ -102,8 +102,8 @@ public class Display {
         return posY;
     }
 
-    private int getTextColorAndAlpha(int alpha, int color) {
-        return ((alpha & 0xFF) << 24) | color;
+    private int getTextColorAndAlpha(int alpha) {
+        return ((alpha & 0xFF) << 24) | Display.defaultColor;
     }
 
     private String formatText(String text, String translation) {
@@ -111,17 +111,13 @@ public class Display {
         return fpsString.getString();
     }
 
-    private String formatText(String text1, String text2, String text3, String translation) {
-        Component fpsString = Component.translatable(translation, text1, text2, text3);
+    private String formatText(String text1, String text2, String text3) {
+        Component fpsString = Component.translatable(Translation.Display.MEMORY, text1, text2, text3);
         return fpsString.getString();
     }
 
-    private void draw(PoseStack stack, Minecraft mc, String text, float posX, float posY, int color, boolean shadow) {
-        if (shadow) {
-            mc.font.drawShadow(stack, text, posX, posY, color);
-        } else {
-            mc.font.draw(stack, text, posX, posY, color);
-        }
+    private void draw(GuiGraphics stack, Minecraft mc, String text, float posX, float posY, int color, boolean shadow) {
+        stack.drawString(mc.font, text, posX, posY, color, shadow);
     }
 
 }
